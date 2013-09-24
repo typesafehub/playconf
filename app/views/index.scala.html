@@ -2,6 +2,12 @@
 
 @main("Welcome to Play Framework") {
 
+@if(flash().containsKey("message")) {     
+	<section>         
+		<h4 style="color: rgb(124, 178, 50);" id="message">@flash.get("message")
+		</h4>     
+	</section> 
+} 
     <div class="well">
         <h1>@message</h1>
     </div>

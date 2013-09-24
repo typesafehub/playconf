@@ -1,0 +1,22 @@
+@(proposalForm: Form[Proposal])
+
+@import helper._
+
+@main("New Proposal") {
+ 
+  @form(action = routes.Application.submitProposal()) {
+  	<h3>Proposal</h3>
+  	@inputText(proposalForm("title"))
+  	@textarea(proposalForm("proposal"))
+  	@inputText(proposalForm("keywords"))
+  	<h3>Speaker</h3>
+  	@inputText(proposalForm("speaker.name"))
+  	@inputText(proposalForm("speaker.email"))
+  	@textarea(proposalForm("speaker.bio"))
+  	@inputText(proposalForm("speaker.twitterId"))
+  	@inputText(proposalForm("speaker.pictureUrl"))
+  	
+  	<button type="submit">Submit</button>
+  }
+
+}
