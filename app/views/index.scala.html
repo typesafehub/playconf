@@ -2,13 +2,21 @@
 
 @import helper._
 
-@main("PlayConf 2014") {
+@moreScripts = {
+
+<script src="@routes.Assets.at("javascripts/playconf.js")" 
+  type="text/javascript" charset="utf-8"></script>
+
+}
+
+@main("PlayConf 2014", moreScripts) {
    @if(flash().containsKey("message")) {     
       <section>         
         <h4 style="color: rgb(124, 178, 50);" id="message">@flash.get("message")
         </h4>     
       </section> 
     }  
+    <input  type="hidden" id="ws-url" value="@routes.Application.buzz().webSocketURL(request)"/>
     <section id="speakers" class="clear">
       <header>
         <h1>Speakers</h1>

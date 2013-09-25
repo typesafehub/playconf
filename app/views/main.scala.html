@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, moreScripts: Html = Html(""))(content: Html)
 <!DOCTYPE html>
 <html>
   <head>
@@ -30,5 +30,6 @@
 
     <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript" charset="utf-8"></script>
     <script src="@routes.Assets.at("javascripts/home.js")" type="text/javascript" charset="utf-8"></script>
+    @moreScripts
   </body>
 </html>
