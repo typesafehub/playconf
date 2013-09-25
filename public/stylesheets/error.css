@@ -1,0 +1,28 @@
+#error {
+	margin: 140px 0 0;
+	width: -webkit-calc(50% + 480px);
+	width: -moz-calc(50% + 480px);
+	width: calc(50% + 480px);
+	min-height: 200px;
+
+	padding-left: -webkit-calc(50% - 280px);
+	padding-left: -moz-calc(50% - 280px);
+	padding-left: calc(50% - 280px);
+	background: #F06665;
+	border: 1px solid transparent;
+	border-left: none;
+	color: white;
+	font-weight: 500;
+}
+
+h1 {
+	margin: -30px 10px 20px 0;
+}
+
+p {
+	font-size: 19px;
+}
+
+.button-wrapper {
+	margin: 30px 0;
+}
