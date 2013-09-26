@@ -14,6 +14,14 @@ showProposal = (json) ->
   $("#title").html json.title
   $("#proposal").html json.proposal
   
+showRegisteredUser = (json) ->
+  article = $("#buzz").find("article:first").remove()
+  $(article).find("#registeredUserPictureUrl").attr "src", json.pictureUrl
+  $(article).find("#registerdUserName").html json.name
+  $(article).find("#registerdUserTwitterId").html json.twitterId
+  $(article).find("#registeredUserDesc").html json.description
+  $("#buzz").find("article:last").after article
+  $(article).css "display", "block"
 
 connectWebSocket = () ->
   websocket = new WebSocket $("#ws-url").val()
@@ -21,6 +29,7 @@ connectWebSocket = () ->
      json = JSON.parse(evt.data)
      showNewProposal json if json.messageType is "newProposal"
      showProposal json if json.messageType is "proposalSubmission"
+     showRegisteredUser json if json.messageType is "registeredUser"
   websocket.onopen = ->
     console.log("Connection is open")
   websocket.onerror = (evt) ->
