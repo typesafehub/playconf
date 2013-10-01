@@ -2,12 +2,12 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET      /register                  controllers.Application.register()
-GET      /register_callback         controllers.Application.registerCallback()
-GET      /buzz                      controllers.Application.buzz()
-GET     /new                        controllers.Application.newProposal()
-POST    /submit                     controllers.Application.submitProposal()
-GET     /                           controllers.Application.index()
+GET      /register                  @controllers.Application.register()
+GET      /register_callback         @controllers.Application.registerCallback()
+GET      /buzz                      @controllers.Application.buzz()
+GET     /new                        @controllers.Application.newProposal()
+POST    /submit                     @controllers.Application.submitProposal()
+GET     /                           @controllers.Application.index()
 
 #For testing
 

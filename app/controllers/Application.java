@@ -1,8 +1,10 @@
 package controllers;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import models.Proposal;
 import models.RegisteredUser;
-import play.Play;
 import play.data.Form;
 import play.libs.F.Callback;
 import play.libs.F.Callback0;
@@ -12,9 +14,7 @@ import play.libs.F.Tuple;
 import play.libs.OAuth.RequestToken;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.Results;
 import play.mvc.WebSocket;
-import actors.EventPublisher;
 import actors.messages.CloseConnectionEvent;
 import actors.messages.NewConnectionEvent;
 import actors.messages.NewProposalEvent;
@@ -24,44 +24,51 @@ import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import external.services.OAuthService;
-import external.services.TwitterOAuthService;
 
+@Singleton
 public class Application extends Controller {
     
-    private static final Form<Proposal> proposalForm = Form.form(Proposal.class);
+    private final Form<Proposal> proposalForm = Form.form(Proposal.class);
     
-    private static final OAuthService service = new TwitterOAuthService(
-            Play.application().configuration().getString("twitter.consumer.key"), 
-            Play.application().configuration().getString("twitter.consumer.secret"));
+    private final ActorRef ref;
+
+    private final OAuthService oauthService;
     
-    public static Result register() {
+    @Inject
+    public Application(ActorRef ref, OAuthService oauthService) {
+        this.ref = ref;
+        this.oauthService = oauthService;
+        
+    }
+    
+    public Result register() {
         String callbackUrl = routes.Application.registerCallback().absoluteURL(request());
-        Tuple<String, RequestToken> t = service.retrieveRequestToken(callbackUrl);
+        Tuple<String, RequestToken> t = oauthService.retrieveRequestToken(callbackUrl);
         flash("request_token", t._2.token);
         flash("request_secret", t._2.secret);
         return redirect(t._1);
     }
     
-    public static Result registerCallback() {
+    public Result registerCallback() {
         RequestToken token = new RequestToken(flash("request_token"), flash("request_secret"));
         
         String authVerifier = request().getQueryString("oauth_verifier");
         
-        Promise<JsonNode> userProfile = service.registeredUserProfile(token, authVerifier);
+        Promise<JsonNode> userProfile = oauthService.registeredUserProfile(token, authVerifier);
         userProfile.onRedeem(new Callback<JsonNode>(){
 
             @Override
             public void invoke(JsonNode twitterJson) throws Throwable {
                 RegisteredUser user = RegisteredUser.fromJson(twitterJson);
                 user.save();
-                EventPublisher.ref.tell(new UserRegistrationEvent(user), ActorRef.noSender());
+                ref.tell(new UserRegistrationEvent(user), ActorRef.noSender());
             }
             
         });
         return redirect(routes.Application.index());
     }
     
-    public static WebSocket<JsonNode> buzz() {
+    public WebSocket<JsonNode> buzz() {
         return new WebSocket<JsonNode>() {
 
             @Override
@@ -69,12 +76,12 @@ public class Application extends Controller {
                     play.mvc.WebSocket.Out<JsonNode> out) {
                 //use the out channel to push the data back to the client
                 final String uuid = java.util.UUID.randomUUID().toString();
-                EventPublisher.ref.tell(new NewConnectionEvent(uuid, out), ActorRef.noSender());
+                ref.tell(new NewConnectionEvent(uuid, out), ActorRef.noSender());
                 
                 in.onClose(new Callback0() {
                     @Override
                     public void invoke() throws Throwable {
-                        EventPublisher.ref.tell(new CloseConnectionEvent(uuid), ActorRef.noSender());
+                        ref.tell(new CloseConnectionEvent(uuid), ActorRef.noSender());
                     }
                 });
             }
@@ -83,7 +90,7 @@ public class Application extends Controller {
     }
     
     
-    public static Promise<Result> index() {
+    public Promise<Result> index() {
         Promise<Proposal> keynote = Proposal.findKeynote();
         Promise<Result> result = keynote.map(new Function<Proposal, Result>() {
 
@@ -95,11 +102,11 @@ public class Application extends Controller {
         return result;
     }
     
-    public static Result newProposal() {
+    public Result newProposal() {
         return ok(views.html.newProposal.render(proposalForm));
     }
     
-    public static Promise<Result> submitProposal() {
+    public Promise<Result> submitProposal() {
         Form<Proposal> submittedForm = proposalForm.bindFromRequest();
         if(submittedForm.hasErrors()) {
             return Promise.<Result>pure(ok(views.html.newProposal.render(submittedForm)));
@@ -109,7 +116,7 @@ public class Application extends Controller {
                 @Override
                 public Result apply(Void arg0) throws Throwable {
                     flash ("message", "Thanks for submitting a proposal");
-                    EventPublisher.ref.tell(new NewProposalEvent(proposal), ActorRef.noSender());
+                    ref.tell(new NewProposalEvent(proposal), ActorRef.noSender());
                     return redirect(routes.Application.index());
                 }
             });

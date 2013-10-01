@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
+import common.DBExecutionContext;
+
 import play.Logger;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
@@ -47,8 +49,6 @@ public class Proposal extends Model {
 
     private static Finder<Long, Proposal> find = new Finder<Long, Proposal>(Long.class, Proposal.class);
 
-    private static ExecutionContext ctx = Akka.system().dispatchers().lookup("akka.db-dispatcher");
-    
     public static Promise<Proposal> findKeynote() {
         return Promise.promise(new Function0<Proposal>(){
             @Override
@@ -56,7 +56,7 @@ public class Proposal extends Model {
                 return find.where().eq("type", SessionType.Keynote).findUnique();
             }
             
-        }, ctx ).recover(new Function<Throwable, Proposal>() {
+        }, DBExecutionContext.ctx ).recover(new Function<Throwable, Proposal>() {
 
             @Override
             public Proposal apply(Throwable t) throws Throwable {
@@ -72,7 +72,7 @@ public class Proposal extends Model {
                 return s;
             }
             
-        }, ctx);
+        }, DBExecutionContext.ctx);
     }
 
     public Promise<Void> asyncSave() {
@@ -82,7 +82,7 @@ public class Proposal extends Model {
                 save();
                 return null;
             }
-        }, ctx);
+        }, DBExecutionContext.ctx);
     }
     
     
@@ -94,7 +94,7 @@ public class Proposal extends Model {
                 Long randomId = (long) (1 + Math.random() * (5 - 1));
                 return Proposal.find.byId(randomId);
             }
-        } , ctx);
+        } , DBExecutionContext.ctx);
     }
     
     
