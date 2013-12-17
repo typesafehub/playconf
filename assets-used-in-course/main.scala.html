@@ -1,0 +1,34 @@
+@(title: String)(content: Html)
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>@title</title>
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/home.css")">  
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/animation.css")">  
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+  </head>
+  <body>
+    <header class="top clear">
+      <div class="left">
+        <a id="logo" href="/">PlayConf 2014</a>
+        <p>PlayConf will be held this year in New York at The Hudson Theater on September 10th-12th.After much anticipation, we're thrilled to announce the first play conference in New York.</p>
+      </div>
+      <div class="right">
+        <p class="month">September</p>
+        <p class="days">11,12,13</p>
+        <p class="city">New York</p>
+      </div>
+    </header>
+    <aside id="register">
+      <a class="button white" href="#">Register</a>
+      Register with your twitter account
+    </aside>
+      @content
+    <footer>
+      This is a demo site, not a real conf.
+    </footer>
+
+    <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript" charset="utf-8"></script>
+    <script src="@routes.Assets.at("javascripts/home.js")" type="text/javascript" charset="utf-8"></script>
+  </body>
+</html>

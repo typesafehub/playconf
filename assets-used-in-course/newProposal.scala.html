@@ -1,0 +1,35 @@
+@(proposal: Form[Proposal])
+
+@import helper._
+@main("PlayConf 2014 - Submit new talk") {
+	<section id="proposal" class="clear">
+		<h1>Submit your proposal</h1>
+		@form(action = routes.Application.submit()){
+			<div class="bloc proposal">
+			<h3>Proposal</h3>
+				<label>Title</label>
+				@inputText(proposal("title"), args = '_label -> "")
+				<label>Description</label>
+				@textarea(proposal("proposal"), args = 'rows -> 4, 'cols -> 50, '_label -> "")
+								<label>Keywords</label>
+				@inputText(proposal("keywords"), args = '_label -> "")
+			</div>
+			<div class="bloc speaker">
+			<h3>Speaker</h3>
+				<label>Name</label>
+				@inputText(proposal("speaker.name"), args = '_label -> "", '_label -> "")
+				<label>Email</label>
+				@inputText(proposal("speaker.email"), args = '_label -> "")
+				<label>Short bio</label>
+				@textarea(proposal("speaker.bio"), args = 'rows -> 3, 'cols -> 50, '_label -> "")
+				<label>Avatar url</label>
+				@inputText(proposal("speaker.pictureUrl"), args = '_label -> "")
+				<label>Twitter id</label>
+				@inputText(proposal("speaker.twitterId"), args = '_label -> "")
+			</div>
+			<p class="submit">
+				<button type="submit" class="button green" id="submitForm">Submit</button>
+			</p>
+		}
+	</section>
+}

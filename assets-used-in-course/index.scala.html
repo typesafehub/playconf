@@ -1,0 +1,82 @@
+@(message: String)
+
+@import helper._
+
+@main("PlayConf 2014") {
+   @if(flash().containsKey("message")) {     
+      <section>         
+        <h4 style="color: rgb(124, 178, 50);" id="message">@flash.get("message")
+        </h4>     
+      </section> 
+    }  
+    <section id="speakers" class="clear">
+      <header>
+        <h1>Speakers</h1>
+        <p>Are you using the Play framework to build your application and want to share your experience with
+        others? Please go ahead and submit your talk.</p>
+        <a href="@routes.Application.newProposal()" class="button green">Submit your proposal</a>
+      </header>
+      <article>
+        <ul>
+          <li>
+            <img id="speakerImage" src="assets/images/fake-speaker.png">
+            <h2 id="speakerName">John Doe</h2>
+            <a id="twitterId" href="#" class="twitter">twitter id</a>
+            <h3 id="title">Keynote - keynote title</h3>
+            <p id="proposal">keynote proposal goes in here</p>
+          </li>
+        </ul>
+      </article>
+    </section>
+    <section id="buzz" class="clear">
+      <h1 id="buzzHeader">Buzz</h1>
+      <article>
+        <div class="author">
+          <img id="registeredUserPictureUrl" src="assets/images/fake-speaker.png">
+          <h2 id="registerdUserName">Guillaume Bort</h2>
+          <a id="registerdUserTwitterId" href="#" class="twitter">@@guillaumebort</a>
+        </div>
+        <div id="registeredUserDesc" class="content">
+          Le code de notre session live coding avec @@Sadache pour #DevoxxFR – <a href="https://github.com/">https://github.com/guillaumebort/devoxxfr2013</a>
+        </div>
+      </article>
+      <article>
+        <div class="author">
+          <img id="registeredUserPictureUrl" src="assets/images/fake-speaker.png">
+          <h2 id="registerdUserName">Guillaume Bort</h2>
+          <a id="registerdUserTwitterId" href="#" class="twitter">@@guillaumebort</a>
+        </div>
+        <div id="registeredUserDesc" class="content">
+          Le code de notre session live coding avec @@Sadache pour #DevoxxFR – <a href="https://github.com/">https://github.com/guillaumebort/devoxxfr2013</a>
+        </div>
+      </article>
+      <article>
+        <div class="author">
+          <img id="registeredUserPictureUrl" src="assets/images/fake-speaker.png">
+          <h2 id="registerdUserName">Guillaume Bort</h2>
+          <a id="registerdUserTwitterId" href="#" class="twitter">@@guillaumebort</a>
+        </div>
+        <div id="registeredUserDesc" class="content">
+          Le code de notre session live coding avec @@Sadache pour #DevoxxFR – <a href="https://github.com/">https://github.com/guillaumebort/devoxxfr2013</a>
+        </div>
+      </article>
+      <article>
+        <div class="author">
+          <img id="registeredUserPictureUrl" src="assets/images/fake-speaker.png">
+          <h2 id="registerdUserName">Guillaume Bort</h2>
+          <a id="registerdUserTwitterId" href="#" class="twitter">@@guillaumebort</a>
+        </div>
+        <div id="registeredUserDesc" class="content">
+          Le code de notre session live coding avec @@Sadache pour #DevoxxFR – <a href="https://github.com/">https://github.com/guillaumebort/devoxxfr2013</a>
+        </div>
+      </article>
+    </section>
+
+    <section id="venue" class="clear">
+      <!-- See the "145 W 44th St, New York, NY 10036" for the address -->
+      <img src="http://maps.googleapis.com/maps/api/staticmap?size=495x280&amp;sensor=false&amp;maptype=roadmap&amp;zoom=15&amp;markers=size:mid%7Ccolor:black%7C145 W 44th St, New York, NY 10036">
+      <h1>Venue</h1>
+      <p>The HUDSON THEATRE<br>145 W 44th St, New York, NY 10036</p>
+      <p><a class="button dark" href="https://maps.google.com/?q=145%20W%2044th%20St,%20New%20York,%20NY%2010036">Map</a></p>
+    </section>
+}

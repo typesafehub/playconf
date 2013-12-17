@@ -1,0 +1,52 @@
+@-webkit-keyframes show-tweet
+  0%
+    opacity: 0
+    max-height: 1px
+  50%
+    opacity: 1
+    max-height: 400px
+    -webkit-transform: translateY(-20px)
+  80%
+    max-height: 400px
+    -webkit-transform: translateY(10px)
+  100%
+    max-height: 400px
+    -webkit-transform: translateY(0)
+
+
+@-moz-keyframes show-tweet
+  0%
+    opacity: 0
+    max-height: 1px
+  50%
+    opacity: 1
+    max-height: 400px
+    -moz-transform: translateY(-20px)
+  80%
+    max-height: 400px
+    -moz-transform: translateY(10px)
+  100%
+    max-height: 400px
+    -moz-transform: translateY(0)
+
+
+@keyframes show-tweet
+  0%
+    opacity: 0
+    max-height: 1px
+  50%
+    opacity: 1
+    max-height: 400px
+    transform: translateY(-20px)
+  80%
+    max-height: 400px
+    transform: translateY(10px)
+  100%
+    max-height: 400px
+    transform: translateY(0)
+
+
+#buzz article
+  -webkit-animation: show-tweet 1s cubic-bezier(0.6, 0, 0.4, 1)
+  -moz-animation: show-tweet 1s cubic-bezier(0.6, 0, 0.4, 1)
+  animation: show-tweet 1s cubic-bezier(0.6, 0, 0.4, 1)	
