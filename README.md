@@ -10,7 +10,7 @@ Here is the outline of the course
 - Lesson 1 – Meet Play
 - Lesson 2 – Zero to Deploy
 - Lesson 3 – Working with Assets
-  You can download all the assets used in the lesson from [here](https://github.com/typesafehub/playconf/tree/master/assets-used-in-course)
+  - You can download all the assets used in the lesson from [here](https://github.com/typesafehub/playconf/tree/master/assets-used-in-course)
 - Lesson 4 – Going Reactive
 - Lesson 5 – Using REST Services
 - Lesson 6 – Adding Tests
