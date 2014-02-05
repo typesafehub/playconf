@@ -7,6 +7,7 @@
 realpath () {
 (
   TARGET_FILE="$1"
+  CHECK_CYGWIN="$2"
 
   cd $(dirname "$TARGET_FILE")
   TARGET_FILE=$(basename "$TARGET_FILE")
@@ -20,8 +21,19 @@ realpath () {
       COUNT=$(($COUNT + 1))
   done
 
+  if [ "$TARGET_FILE" == "." -o "$TARGET_FILE" == ".." ]; then
+    cd "$TARGET_FILE"
+    TARGET_FILEPATH=
+  else
+    TARGET_FILEPATH=/$TARGET_FILE
+  fi
+
   # make sure we grab the actual windows path, instead of cygwin's path.
-  echo $(cygwinpath "$(pwd -P)/$TARGET_FILE")
+  if [[ "x$CHECK_CYGWIN" == "x" ]]; then
+    echo "$(pwd -P)/$TARGET_FILE"
+  else
+    echo $(cygwinpath "$(pwd -P)/$TARGET_FILE")
+  fi
 )
 }
 
@@ -250,8 +262,9 @@ EOM
 declare -a residual_args
 declare -a java_args
 declare -a app_commands
-declare -r activator_home="$(realpath "$(dirname "$0")")"
-declare -r app_version="1.0.0"
+declare -r real_script_path="$(realpath "$0")"
+declare -r activator_home="$(realpath "$(dirname "$real_script_path")")"
+declare -r app_version="1.0.11"
 
 declare -r app_launcher="${activator_home}/activator-launch-${app_version}.jar"
 declare -r script_name=activator
